@@ -220,7 +220,7 @@ filter_forms(Msgs, Enums, [{attribute,L,export,[{encode_pikachu,1},{decode_pikac
 
 filter_forms(Msgs, Enums, [{attribute,L,record,{pikachu,_}}|Tail], Basename, Acc) ->
     Records = [begin
-		   OutFields = [string:to_lower(A) || {_, _, _, A, _} <- lists:keysort(1, Fields)],
+		   OutFields = [A || {_, _, _, A, _} <- lists:keysort(1, Fields)],
        ExtendField = case Extends of
            disallowed -> [];
            _ -> [{record_field,L,{atom,L,'$extensions'}}]
@@ -426,7 +426,7 @@ filter_iolist_clause({MsgName, Fields0, _Extends0}, {clause,L,_Args,Guards,_Cont
 					      {atom,L,with_default},
 					      [{record_field,L,
 						{var,L,'Record'},atomize(MsgName),
-						{atom,L,atomize(SName)}},
+						{atom,L,list_to_atom(SName)}},
 					       erl_parse:abstract(Default)]},
 					     {atom,L,atomize(SType)},
 					     {nil,L}]},

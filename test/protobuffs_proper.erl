@@ -523,3 +523,11 @@ proper_protobuffs_service() ->
 		    compare_messages(Service, Decoded)
 	      end
 	    end).
+
+proper_protobuffs_mixedCase() ->
+    ?FORALL(MixedCase, (utf8string()),
+        begin
+            Input = {mixedcase, MixedCase},
+            Decoded = mixedCase_pb:decode_mixedcase(mixedCase_pb:encode_mixedcase(Input)),
+            compare_messages(Input, Decoded)
+        end).
